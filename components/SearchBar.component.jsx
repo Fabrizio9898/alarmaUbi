@@ -15,8 +15,8 @@ export default function SearchBar() {
       <TextInput
         style={styles.input}
         placeholder="Buscar un lugar..."
-        editable={false} // Deshabilitar escritura directa
-        pointerEvents="none" // Evitar interacción con el input
+        editable={false} 
+        pointerEvents="none" 
       />
     </TouchableOpacity>
   );
@@ -27,14 +27,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
-    borderRadius: 8,
+    borderRadius: 20,
     padding: 10,
     margin: 10,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
+   
   },
   input: {
     flex: 1,

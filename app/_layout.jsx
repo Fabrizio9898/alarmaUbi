@@ -1,5 +1,5 @@
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 
 export default function RootLayout() {
   return (
@@ -11,7 +11,7 @@ export default function RootLayout() {
           name="search"
           options={{
             headerShown: false,
-            presentation: 'modal', // Hace que cubra toda la pantalla
+            presentation: "modal", // Hace que cubra toda la pantalla
             animation: "slide_from_right", // Animación estilo Google Maps
           }}
         />

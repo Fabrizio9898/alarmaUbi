@@ -11,8 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function SettingsScreen() {
   const [settings, setSettings] = useState({
     vibrarAlarma: true,
-    avisoPrevio: false,
-    // otros más...
+    aumentoVolumen: true,
   });
   const toggleSetting = (key) => {
     setSettings((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -29,7 +28,7 @@ export default function SettingsScreen() {
           <View style={styles.box}>
             <TouchableHighlight
               underlayColor={"#e4e4e452"}
-              onPress={() => console.log("Editar perfil")}
+              onPress={() => toggleSetting("vibrarAlarma")}
               style={styles.touchables}
             >
               <View
@@ -45,8 +44,8 @@ export default function SettingsScreen() {
                 <Switch
                   trackColor={{ false: "#767577", true: "#2372faff" }}
                   thumbColor={settings.vibrarAlarma ? "#ffffffff" : "#f4f3f4"}
-                  onValueChange={()=>toggleSetting('vibrarAlarma')}
                   value={settings.vibrarAlarma}
+                  onValueChange={() => toggleSetting("vibrarAlarma")}
                 />
               </View>
             </TouchableHighlight>
@@ -62,66 +61,61 @@ export default function SettingsScreen() {
                   alignItems: "center",
                 }}
               >
-                <Text style={styles.touchableText}>Aviso Previo</Text>
-                   <Switch
-                  trackColor={{ false: "#767577", true: "#2372faff" }}
-                  thumbColor={settings.avisoPrevio ? "#ffffffff" : "#f4f3f4"}
-                  onValueChange={()=>toggleSetting('avisoPrevio')}
-                  value={settings.avisoPrevio}
-                />
-              </View>
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor={"#e4e4e452"}
-              onPress={() => console.log("Editar perfil")}
-              style={styles.touchables}
-            >
-              <View
-                style={{
-                  justifyContent: "space-between",
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <Text style={styles.touchableText}>Volumen ascendente</Text>
-                <Text
+                <View
                   style={{
-                    fontWeight: "bold",
-                    fontSize: 20,
-                    color: "#bbbbbba1",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    gap: 3,
+                    flex:1,
+                    paddingRight: 10,
                   }}
                 >
-                  {">"}
-                </Text>
+                  <Text style={styles.touchableText}>Aviso Previo</Text>
+                  <Text style={{color:"#817979a1",textAlign:"left",flexWrap:"wrap"}}>Establece la distancia a partir de la cual empezará a sonar la alarma</Text>
+                </View>
+                {/* <Switch
+                  trackColor={{ false: "#767577", true: "#2372faff" }}
+                  thumbColor={settings.avisoPrevio ? "#ffffffff" : "#f4f3f4"}
+                  onValueChange={() => toggleSetting("avisoPrevio")}
+                  value={settings.avisoPrevio}
+                /> */}
+              </View>
+            </TouchableHighlight>
+            <TouchableHighlight
+              underlayColor={"#e4e4e452"}
+              onPress={() => console.log("Editar perfil")}
+              style={styles.touchables}
+            >
+              <View
+                style={{
+                  justifyContent: "space-between",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                  <View
+                  style={{
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    gap: 3,
+                    flex:1,
+                    paddingRight: 10,
+                  }}
+                >
+                  <Text style={styles.touchableText}>Volumen ascendente</Text>
+                  <Text style={{color:"#817979a1",textAlign:"left",flexWrap:"wrap"}}>El volumen de la alarma aumentará gradualmente</Text>
+                </View>
+                <Switch
+                  trackColor={{ false: "#767577", true: "#2372faff" }}
+                  thumbColor={settings.aumentoVolumen ? "#ffffffff" : "#f4f3f4"}
+                  onValueChange={() => toggleSetting("aumentoVolumen")}
+                  value={settings.aumentoVolumen}
+                  
+                />
               </View>
             </TouchableHighlight>
 
-            <TouchableHighlight
-              underlayColor={"#e4e4e452"}
-              onPress={() => console.log("Editar perfil")}
-              style={styles.touchables}
-            >
-              <View
-                style={{
-                  justifyContent: "space-between",
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <Text style={styles.touchableText}>
-                  Mostrar alarmas en la Pantalla de bloqueo{" "}
-                </Text>
-                <Text
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: 20,
-                    color: "#bbbbbba1",
-                  }}
-                >
-                  {">"}
-                </Text>
-              </View>
-            </TouchableHighlight>
+           
           </View>
         </View>
         <View style={styles.boxContainer}>

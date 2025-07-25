@@ -1,9 +1,8 @@
 import { Text, TouchableHighlight, View } from "react-native";
 
 export default function TouchableOpacityComponent({
-  children,
+  title,
   onPress,
-  style,
 }) {
   return (
     <TouchableHighlight
@@ -28,7 +27,7 @@ export default function TouchableOpacityComponent({
             fontSize: 15,
           }}
         >
-          Tono de alarma
+            {title}
         </Text>
         <Text style={{ fontWeight: "bold", fontSize: 20, color: "#bbbbbba1" }}>
           {">"}

@@ -15,12 +15,63 @@ export default function SettingsScreen() {
             <TouchableHighlight
               underlayColor={"#e4e4e452"}
               onPress={() => console.log("Editar perfil")}
-              style={{
-                padding: 10,
-                borderRadius: 5,
-              }}
+              style={styles.touchables}
             >
-              <View style={{ justifyContent: "space-between" ,flexDirection: "row", alignItems: "center" }}>
+              <View
+                style={{
+                  justifyContent: "space-between",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={styles.touchableText}>Tono de alarma</Text>
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: 20,
+                    color: "#bbbbbba1",
+                  }}
+                >
+                  {">"}
+                </Text>
+              </View>
+            </TouchableHighlight>
+            <TouchableHighlight
+              underlayColor={"#e4e4e452"}
+              onPress={() => console.log("Editar perfil")}
+              style={styles.touchables}
+            >
+              <View
+                style={{
+                  justifyContent: "space-between",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={styles.touchableText}>Tono de alarma</Text>
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: 20,
+                    color: "#bbbbbba1",
+                  }}
+                >
+                  {">"}
+                </Text>
+              </View>
+            </TouchableHighlight>
+            <TouchableHighlight
+              underlayColor={"#e4e4e452"}
+              onPress={() => console.log("Editar perfil")}
+              style={styles.touchables}
+            >
+              <View
+                style={{
+                  justifyContent: "space-between",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
                 <Text
                   style={{
                     color: "#ffffffff",
@@ -30,7 +81,39 @@ export default function SettingsScreen() {
                 >
                   Tono de alarma
                 </Text>
-                <Text style={{fontWeight:"bold",fontSize:20,color:"#bbbbbba1"}}>{">"}</Text>
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: 20,
+                    color: "#bbbbbba1",
+                  }}
+                >
+                  {">"}
+                </Text>
+              </View>
+            </TouchableHighlight>
+            <TouchableHighlight
+              underlayColor={"#e4e4e452"}
+              onPress={() => console.log("Editar perfil")}
+              style={styles.touchables}
+            >
+              <View
+                style={{
+                  justifyContent: "space-between",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={styles.touchableText}>Tono de alarma</Text>
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: 20,
+                    color: "#bbbbbba1",
+                  }}
+                >
+                  {">"}
+                </Text>
               </View>
             </TouchableHighlight>
           </View>
@@ -66,4 +149,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#2b2b2b",
     borderRadius: 10,
   },
+  touchables: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingVertical: 3,
+  },
+  touchableText: { color: "#ffffffff", fontWeight: "500", fontSize: 15 },
 });

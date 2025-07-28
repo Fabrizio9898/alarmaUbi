@@ -1,63 +1,100 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import {  createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const  defaultSettings = {
-    vibrateOnAlarm: true,
-    ascendingVolume: true,
-    distanceAlerts:[100,500,1000],
-    ringTone:"default",
-    
-}
+const toneFiles = {
+  defaultalarm: require('../assets/sounds/alarma1.wav'),
+  tone1: require('../assets/sounds/alarma2.mp3'),
+};
 
-export const SettingsContext=createContext()
+const CLEAR_ASYNC_STORAGE = true;
 
-export const SettingsProvider = ({children})=>{
-    const [settings, setSettings] = useState(defaultSettings);
+const defaultSettings = {
+  vibrarAlarma: true,
+  aumentoVolumen: true,
+  distanceAlert: 300,
+  ringTone: {
+    name: 'defaultalarm',
+    uri: toneFiles.defaultalarm, 
+  },
+  volumen: '100%',
+};
 
- 
-   // Cargar o inicializar configuraciones al montar el componente
-  useEffect(() => {
-    initializeSettings();
-  }, []);
+export const SettingsContext = createContext({
+  settings: defaultSettings,
+  updateSettings: () => {},
+});
 
-  // Guardar configuraciones en AsyncStorage al cambiar
-  useEffect(() => {
-    const saveSettings = async () => {
-      try {
-        await AsyncStorage.setItem('userSettings', JSON.stringify(settings));
-      } catch (error) {
-        console.error('Error saving settings:', error);
-      }
-    };
-    // Solo guardamos si settings no es igual a defaultSettings para evitar guardar al inicio
-    if (settings !== defaultSettings) {
-      saveSettings();
-    }
-  }, [settings]);
+export const SettingsProvider = ({ children }) => {
+  const [settings, setSettings] = useState(defaultSettings);
 
-
-  
- const initializeSettings = async () => {
+  const initializeSettings = async () => {
     try {
+      if (CLEAR_ASYNC_STORAGE) {
+        await AsyncStorage.removeItem('userSettings');
+        console.log('AsyncStorage cleared');
+      }
+
       const storedSettings = await AsyncStorage.getItem('userSettings');
       if (storedSettings) {
-        // Si hay datos guardados, los usamos
-        setSettings(JSON.parse(storedSettings));
+        const parsedSettings = JSON.parse(storedSettings);
+        if (typeof parsedSettings.ringTone === 'string') {
+          parsedSettings.ringTone = {
+            name: parsedSettings.ringTone,
+            uri: toneFiles[parsedSettings.ringTone] || toneFiles.defaultalarm,
+          };
+        } else if (parsedSettings.ringTone && !parsedSettings.ringTone.uri) {
+          parsedSettings.ringTone.uri = toneFiles[parsedSettings.ringTone.name] || toneFiles.defaultalarm;
+        }
+        setSettings({ ...defaultSettings, ...parsedSettings });
       } else {
-        // Si no hay datos, guardamos los valores por defecto
         await AsyncStorage.setItem('userSettings', JSON.stringify(defaultSettings));
         setSettings(defaultSettings);
       }
     } catch (error) {
       console.error('Error initializing settings:', error);
-      // En caso de error, usamos los valores por defecto
       setSettings(defaultSettings);
     }
   };
 
-  // Función para actualizar configuraciones
-  const updateSettings = (newSettings) => {
-    setSettings((prev) => ({ ...prev, ...newSettings }));
+  useEffect(() => {
+    initializeSettings();
+  }, []);
+
+  useEffect(() => {
+    const saveSettings = async () => {
+      try {
+        const settingsToSave = {
+          ...settings,
+          ringTone: {
+            name: settings.ringTone.name,
+            uri: settings.ringTone.name, 
+          },
+        };
+        await AsyncStorage.setItem('userSettings', JSON.stringify(settingsToSave));
+      } catch (error) {
+        console.error('Error saving settings:', error);
+      }
+    };
+    if (settings !== defaultSettings) {
+      saveSettings();
+    }
+  }, [settings]);
+
+  const updateSettings = (key, value = null) => {
+    if (key === 'ringTone') {
+      setSettings((prev) => ({
+        ...prev,
+        ringTone: {
+          name: value.name,
+          uri: toneFiles[value.name] || toneFiles.defaultalarm,
+        },
+      }));
+    } else {
+      setSettings((prev) => ({
+        ...prev,
+        [key]: value !== null ? value : !prev[key],
+      }));
+    }
   };
 
   return (

@@ -7,17 +7,12 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import SettingItem from "../../components/Settingitem.component";
 import SettingsGroup from "../../components/SettingsGroup.component";
+import { useSettings } from "../../hooks/useSettings.hoook";
 
 export default function SettingsScreen() {
-  const [settings, setSettings] = useState({
-    vibrarAlarma: true,
-    aumentoVolumen: true,
-  });
-  const toggleSetting = (key) => {
-    setSettings((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
+ const { settings, updateSettings } = useSettings();
 
-
+  console.log(settings);
   
   return (
     <SafeAreaView style={styles.container}>
@@ -27,7 +22,7 @@ export default function SettingsScreen() {
           <SettingItem
             title="Vibrar cuando la alarma suene"
             value={settings.vibrarAlarma}
-            onToggle={() => toggleSetting("vibrarAlarma")}
+            onToggle={() => updateSettings("vibrarAlarma")}
             showSwitch
             containerStyle={styles.touchables}
           />
@@ -35,7 +30,7 @@ export default function SettingsScreen() {
             title="Volumen ascendente"
             description="El volumen de la alarma aumentará gradualmente"
             value={settings.aumentoVolumen}
-            onToggle={() => toggleSetting("aumentoVolumen")}
+            onToggle={() => updateSettings("aumentoVolumen")}
             showSwitch
             containerStyle={styles.touchables}
           />
@@ -52,11 +47,14 @@ export default function SettingsScreen() {
             title="Tono de alarma"
             onPress={() => console.log("Elegir tono")}
             containerStyle={styles.touchables}
+            option={settings.ringTone.name}
           />
           <SettingItem
             title="Volumen del tono"
             onPress={() => console.log("Volumen")}
             containerStyle={styles.touchables}
+            option={settings.volumen}
+
           />
           {/* <SettingItem
             title="Botones de volumen"

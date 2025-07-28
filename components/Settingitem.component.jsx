@@ -9,7 +9,12 @@ export default function SettingItem({
   onPress,
   showSwitch = false,
   containerStyle,
+  option
 }) {
+
+console.log('option',option);
+
+
   return (
     <TouchableHighlight
       underlayColor={"#e4e4e452"}
@@ -48,6 +53,16 @@ export default function SettingItem({
             onValueChange={onToggle}
           />
         ) : (
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text
+            style={{
+              fontWeight: "bold",
+              fontSize: 20,
+              color: "#bbbbbba1",
+            }}
+          >
+            {option}
+          </Text>
           <Text
             style={{
               fontWeight: "bold",
@@ -57,6 +72,7 @@ export default function SettingItem({
           >
             {">"}
           </Text>
+        </View>
         )}
       </View>
     </TouchableHighlight>

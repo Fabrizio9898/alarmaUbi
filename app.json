@@ -26,45 +26,50 @@
     "plugins": [
       "expo-router",
       [
-      "expo-font",{
-        "android":
-        {"fonts":[
-          {
-            "fontFamily": "Onest",
-            "fontDefinitions":[
+        "expo-font",
+        {
+          "android": {
+            "fonts": [
               {
-                "path": "./assets/fonts/onest-cyrillic-ext-400-normal.ttf",
-                "weight": 400
-              },
-              {
-                "path": "./assets/fonts/onest-cyrillic-ext-500-normal.ttf",
-                "weight": 500
-              },
-              {
-                "path": "./assets/fonts/onest-cyrillic-ext-600-normal.ttf",
-                "weight": 600
-              },
-              {
-                "path": "./assets/fonts/onest-cyrillic-ext-700-normal.ttf",
-                "weight": 700
-              },
-              {
-                "path": "./assets/fonts/onest-cyrillic-ext-800-normal.ttf",
-                "weight": 800
-              },
-              {
-                "path": "./assets/fonts/onest-cyrillic-ext-900-normal.ttf",
-                "weight": 900
+                "fontFamily": "Onest",
+                "fontDefinitions": [
+                  {
+                    "path": "./assets/fonts/onest-cyrillic-ext-400-normal.ttf",
+                    "weight": 400
+                  },
+                  {
+                    "path": "./assets/fonts/onest-cyrillic-ext-500-normal.ttf",
+                    "weight": 500
+                  },
+                  {
+                    "path": "./assets/fonts/onest-cyrillic-ext-600-normal.ttf",
+                    "weight": 600
+                  },
+                  {
+                    "path": "./assets/fonts/onest-cyrillic-ext-700-normal.ttf",
+                    "weight": 700
+                  },
+                  {
+                    "path": "./assets/fonts/onest-cyrillic-ext-800-normal.ttf",
+                    "weight": 800
+                  },
+                  {
+                    "path": "./assets/fonts/onest-cyrillic-ext-900-normal.ttf",
+                    "weight": 900
+                  }
+                ]
               }
             ]
+          },
+          "ios": {
+            "fonts": [
+              "./assets/fonts/onest-cyrillic-ext-400-normal.ttf"
+            ]
           }
-        ]
-      },
-      "ios":{
-        "fonts":[ "./assets/fonts/onest-cyrillic-ext-400-normal.ttf"]
-      }
-      }
-     ] ],
+        }
+      ],
+      "expo-audio"
+    ],
     "scheme": "alarmaubi"
   }
 }

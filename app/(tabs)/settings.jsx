@@ -58,7 +58,7 @@ export default function SettingsScreen() {
             onPress={() => console.log("Volumen")}
             containerStyle={styles.touchables}
           />
-          <SettingItem
+          {/* <SettingItem
             title="Botones de volumen"
             onPress={() => console.log("Volumen físico")}
             containerStyle={styles.touchables}
@@ -67,7 +67,7 @@ export default function SettingsScreen() {
             title="Ajustes de alarma adicionales"
             onPress={() => console.log("Más ajustes")}
             containerStyle={styles.touchables}
-          />
+          /> */}
         </SettingsGroup>
       </View>
     </SafeAreaView>

@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   TouchableHighlight,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import { RINGTONES } from "../constants/settingsOptions.constants";
@@ -11,6 +12,7 @@ import { useSettings } from "../hooks/useSettings.hoook"; // Importa el hook
 
 const RingtoneModal = ({ modalVisible, setModalVisible }) => {
   const { settings, updateSettings } = useSettings(); // Obtén settings y updateSettings
+  console.log('settings',settings.ringTone.name);
 
   return (
     <Modal
@@ -21,30 +23,33 @@ const RingtoneModal = ({ modalVisible, setModalVisible }) => {
         setModalVisible(!modalVisible);
       }}
     >
-      <SafeAreaView style={styles.modalContainer}>
-        <View style={styles.modalContent}>
-          {RINGTONES.map((ringtone, index) => (
-            <View key={index}>
-              <TouchableHighlight
-                underlayColor={"#e4e4e452"}
-                onPress={() => {
-                  // Actualiza el tono seleccionado en AsyncStorage
-                  updateSettings("ringTone", ringtone);
-                  console.log(`Tono seleccionado: ${ringtone.name}`);
-                  setModalVisible(false);
-                }}
-                style={[
-                  styles.touchable,
-                  // Aplica fondo azul si el tono es el seleccionado
-                  settings.ringTone.name === ringtone.name && styles.selected,
-                ]}
-              >
-                <Text style={styles.ringtoneText}>{ringtone.name}</Text>
-              </TouchableHighlight>
-            </View>
-          ))}
-        </View>
-      </SafeAreaView>
+      <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+        <SafeAreaView style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            {RINGTONES.map((ringtone, index) => (
+              <View key={index}>
+                <TouchableHighlight
+                  underlayColor={"#e4e4e452"}
+                  onPress={() => {
+                    // Actualiza el tono seleccionado en AsyncStorage
+                    updateSettings("ringTone", ringtone);
+                    console.log(`Tono seleccionado: ${ringtone.name}`);
+                    setModalVisible(false);
+                  }}
+                  style={[
+                    styles.touchable,
+                    // Aplica fondo azul si el tono es el seleccionado
+                    settings.ringTone.name === ringtone.name && styles.selected,
+                  ]}
+                >
+                  <Text style={styles.ringtoneText}>{ringtone.name}</Text>
+                </TouchableHighlight>
+              </View>
+            ))}
+          </View>
+          
+        </SafeAreaView>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 };

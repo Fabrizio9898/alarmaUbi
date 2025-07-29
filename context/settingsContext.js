@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Mapa de tonos
 const toneFiles = {
-  Clasico: require('../assets/sounds/alarma1.wav'),
+  Clásico: require('../assets/sounds/alarma1.wav'),
   Fuerte: require('../assets/sounds/alarma2.mp3'),
 };
 
@@ -16,8 +16,8 @@ const defaultSettings = {
   aumentoVolumen: true,
   distanceAlert: 300,
   ringTone: {
-    name: 'Clasico',
-    uri: toneFiles.Clasico,
+    name: 'Clásico',
+    uri: toneFiles.Clásico,
   },
   volumen: '100%',
 };
@@ -44,7 +44,7 @@ export const SettingsProvider = ({ children }) => {
         if (parsedSettings.ringTone) {
           const ringToneName = typeof parsedSettings.ringTone === 'string' 
             ? parsedSettings.ringTone 
-            : parsedSettings.ringTone.name || 'Clasico';
+            : parsedSettings.ringTone.name || 'Clásico';
           parsedSettings.ringTone = {
             name: ringToneName,
             uri: toneFiles[ringToneName] || toneFiles.Clasico,

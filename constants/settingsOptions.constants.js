@@ -1,6 +1,6 @@
 export const RINGTONES = [
-  { name: "Clásico", uri: require("../assets/sounds/tono1.mp3") },
-  { name: "Fuerte", uri: require("../assets/sounds/fuerte.mp3") },
+  { name: "Clásico", uri: require("../assets/sounds/alarma1.wav") },
+  { name: "Fuerte", uri: require("../assets/sounds/alarma2.mp3") },
 ];
 
 

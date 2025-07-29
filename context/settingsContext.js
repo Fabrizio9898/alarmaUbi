@@ -1,11 +1,14 @@
+// context/settingsContext.js
 import { createContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// Mapa de tonos
 const toneFiles = {
-  defaultalarm: require('../assets/sounds/alarma1.wav'),
-  tone1: require('../assets/sounds/alarma2.mp3'),
+  Clasico: require('../assets/sounds/alarma1.wav'),
+  Fuerte: require('../assets/sounds/alarma2.mp3'),
 };
 
+// Cambia a false cuando quieras mantener los datos
 const CLEAR_ASYNC_STORAGE = true;
 
 const defaultSettings = {
@@ -13,8 +16,8 @@ const defaultSettings = {
   aumentoVolumen: true,
   distanceAlert: 300,
   ringTone: {
-    name: 'defaultalarm',
-    uri: toneFiles.defaultalarm, 
+    name: 'Clasico',
+    uri: toneFiles.Clasico,
   },
   volumen: '100%',
 };
@@ -37,17 +40,24 @@ export const SettingsProvider = ({ children }) => {
       const storedSettings = await AsyncStorage.getItem('userSettings');
       if (storedSettings) {
         const parsedSettings = JSON.parse(storedSettings);
-        if (typeof parsedSettings.ringTone === 'string') {
+        // Manejar ringTone: si es string o tiene name, reconstruir uri
+        if (parsedSettings.ringTone) {
+          const ringToneName = typeof parsedSettings.ringTone === 'string' 
+            ? parsedSettings.ringTone 
+            : parsedSettings.ringTone.name || 'Clasico';
           parsedSettings.ringTone = {
-            name: parsedSettings.ringTone,
-            uri: toneFiles[parsedSettings.ringTone] || toneFiles.defaultalarm,
+            name: ringToneName,
+            uri: toneFiles[ringToneName] || toneFiles.Clasico,
           };
-        } else if (parsedSettings.ringTone && !parsedSettings.ringTone.uri) {
-          parsedSettings.ringTone.uri = toneFiles[parsedSettings.ringTone.name] || toneFiles.defaultalarm;
         }
+        // Combinar con defaultSettings
         setSettings({ ...defaultSettings, ...parsedSettings });
       } else {
-        await AsyncStorage.setItem('userSettings', JSON.stringify(defaultSettings));
+        // Guardar valores por defecto con ringTone como string
+        await AsyncStorage.setItem('userSettings', JSON.stringify({
+          ...defaultSettings,
+          ringTone: defaultSettings.ringTone.name,
+        }));
         setSettings(defaultSettings);
       }
     } catch (error) {
@@ -63,12 +73,10 @@ export const SettingsProvider = ({ children }) => {
   useEffect(() => {
     const saveSettings = async () => {
       try {
+        // Guardar ringTone como string
         const settingsToSave = {
           ...settings,
-          ringTone: {
-            name: settings.ringTone.name,
-            uri: settings.ringTone.name, 
-          },
+          ringTone: settings.ringTone.name,
         };
         await AsyncStorage.setItem('userSettings', JSON.stringify(settingsToSave));
       } catch (error) {
@@ -86,7 +94,7 @@ export const SettingsProvider = ({ children }) => {
         ...prev,
         ringTone: {
           name: value.name,
-          uri: toneFiles[value.name] || toneFiles.defaultalarm,
+          uri: toneFiles[value.name] || toneFiles.Clasico,
         },
       }));
     } else {
@@ -103,3 +111,4 @@ export const SettingsProvider = ({ children }) => {
     </SettingsContext.Provider>
   );
 };
+

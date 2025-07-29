@@ -8,18 +8,18 @@ export default function SettingItem({
   onToggle,
   onPress,
   showSwitch = false,
-  containerStyle,
-  option
+  option,
+  showText = false,
 }) {
-
-console.log('option',option);
-
-
   return (
     <TouchableHighlight
       underlayColor={"#e4e4e452"}
       onPress={onPress || onToggle}
-      style={containerStyle}
+      style={{
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingVertical: 10,
+      }}
     >
       <View
         style={{
@@ -52,28 +52,35 @@ console.log('option',option);
             value={value}
             onValueChange={onToggle}
           />
-        ) : (
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+        ) : showText ? (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 5,
+              padding: 5,
+            }}
+          >
             <Text
-            style={{
-              fontWeight: "bold",
-              fontSize: 20,
-              color: "#bbbbbba1",
-            }}
-          >
-            {option}
-          </Text>
-          <Text
-            style={{
-              fontWeight: "bold",
-              fontSize: 20,
-              color: "#bbbbbba1",
-            }}
-          >
-            {">"}
-          </Text>
-        </View>
-        )}
+              style={{
+                fontWeight: "bold",
+                fontSize: 15,
+                color: "#bbbbbba1",
+              }}
+            >
+              {option}
+            </Text>
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 20,
+                color: "#bbbbbba1",
+              }}
+            >
+              {">"}
+            </Text>
+          </View>
+        ) : null}
       </View>
     </TouchableHighlight>
   );

@@ -8,11 +8,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import SettingItem from "../../components/Settingitem.component";
 import SettingsGroup from "../../components/SettingsGroup.component";
 import { useSettings } from "../../hooks/useSettings.hoook";
+import RingtoneModal from "../../components/RigntonesModal.component";
 
 export default function SettingsScreen() {
  const { settings, updateSettings } = useSettings();
+  const [modalVisible, setModalVisible] = useState(false);
 
-  console.log(settings);
   
   return (
     <SafeAreaView style={styles.container}>
@@ -24,7 +25,6 @@ export default function SettingsScreen() {
             value={settings.vibrarAlarma}
             onToggle={() => updateSettings("vibrarAlarma")}
             showSwitch
-            containerStyle={styles.touchables}
           />
           <SettingItem
             title="Volumen ascendente"
@@ -32,27 +32,26 @@ export default function SettingsScreen() {
             value={settings.aumentoVolumen}
             onToggle={() => updateSettings("aumentoVolumen")}
             showSwitch
-            containerStyle={styles.touchables}
           />
           <SettingItem
             title="Aviso Previo"
             description="Establece la distancia a partir de la cual empezará a sonar la alarma"
             onPress={() => console.log("Ir a pantalla de aviso previo")}
-            containerStyle={styles.touchables}
+            showText
           />
         </SettingsGroup>
 
         <SettingsGroup title="Ajustes generales">
           <SettingItem
             title="Tono de alarma"
-            onPress={() => console.log("Elegir tono")}
-            containerStyle={styles.touchables}
+            onPress={() => setModalVisible(true)}
+            showText
             option={settings.ringTone.name}
           />
           <SettingItem
             title="Volumen del tono"
             onPress={() => console.log("Volumen")}
-            containerStyle={styles.touchables}
+            showText
             option={settings.volumen}
 
           />
@@ -68,6 +67,8 @@ export default function SettingsScreen() {
           /> */}
         </SettingsGroup>
       </View>
+
+      <RingtoneModal />
     </SafeAreaView>
   );
 }
@@ -91,10 +92,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingLeft: 10,
   },
-  touchables: {
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingVertical: 10,
-  },
+
 });
 

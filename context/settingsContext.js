@@ -50,6 +50,8 @@ export const SettingsProvider = ({ children }) => {
             uri: toneFiles[ringToneName] || toneFiles.Clasico,
           };
         }
+        console.log('Settings loaded from AsyncStorage:', parsedSettings);
+        
         // Combinar con defaultSettings
         setSettings({ ...defaultSettings, ...parsedSettings });
       } else {
@@ -89,6 +91,7 @@ export const SettingsProvider = ({ children }) => {
   }, [settings]);
 
   const updateSettings = (key, value = null) => {
+    console.log(`Updating setting: ${key} with value:`, value);
     if (key === 'ringTone') {
       setSettings((prev) => ({
         ...prev,

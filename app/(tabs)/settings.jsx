@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SettingItem from "../../components/Settingitem.component";
 import SettingsGroup from "../../components/SettingsGroup.component";
@@ -11,15 +7,14 @@ import { useSettings } from "../../hooks/useSettings.hoook";
 import RingtoneModal from "../../components/RigntonesModal.component";
 
 export default function SettingsScreen() {
- const { settings, updateSettings } = useSettings();
+  const { settings, updateSettings } = useSettings();
   const [modalVisible, setModalVisible] = useState(false);
 
-  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.viewContainer}>
         <Text style={styles.title}>Configuración</Text>
-      <SettingsGroup title="Preferencias de usuario">
+        <SettingsGroup title="Preferencias de usuario">
           <SettingItem
             title="Vibrar cuando la alarma suene"
             value={settings.vibrarAlarma}
@@ -53,7 +48,6 @@ export default function SettingsScreen() {
             onPress={() => console.log("Volumen")}
             showText
             option={settings.volumen}
-
           />
           {/* <SettingItem
             title="Botones de volumen"
@@ -68,11 +62,13 @@ export default function SettingsScreen() {
         </SettingsGroup>
       </View>
 
-      <RingtoneModal />
+      <RingtoneModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
     </SafeAreaView>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -85,13 +81,11 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
   },
-    title: {
+  title: {
     color: "#ffffff",
     fontSize: 30,
     fontWeight: "bold",
     marginTop: 20,
     paddingLeft: 10,
   },
-
 });
-

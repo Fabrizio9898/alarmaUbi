@@ -17,7 +17,7 @@ const RingtoneModal = ({ modalVisible, setModalVisible }) => {
   return (
     <Modal
       animationType="slide"
-      transparent={true}
+      backdropColor={"rgba(0,0,0,0.5)"}
       visible={modalVisible}
       onRequestClose={() => {
         setModalVisible(!modalVisible);
@@ -57,7 +57,6 @@ const RingtoneModal = ({ modalVisible, setModalVisible }) => {
 const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
     alignItems: "flex-end",
     justifyContent: "center",
   },

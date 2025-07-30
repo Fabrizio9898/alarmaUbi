@@ -1,5 +1,4 @@
-import { StyleSheet } from "react-native";
-import { View } from "react-native"; // Asegurate de usar react-native
+import { StyleSheet ,View} from "react-native";
 import SearchBarWithAutocomplete from "../components/SearchBarWithAutocomplete.component";
 
 export default function SearchScreen() {

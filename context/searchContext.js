@@ -7,6 +7,7 @@ const defaultHistory = [];
 
 export const SearchHistoryContext = createContext({
   searchHistory: defaultHistory,
+  selectedSearch: null,
   addSearch: () => {},
   clearHistory: () => {},
 });

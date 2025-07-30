@@ -1,94 +1,90 @@
-import React, { useState } from 'react';
-import { View, TextInput, FlatList, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useRouter } from 'expo-router';
-// import mbxClient from '@mapbox/mapbox-sdk';
-// import mbxGeocoding from '@mapbox/mapbox-sdk/services/geocoding';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-
-// Configura el cliente de Mapbox
-// const mapboxClient = mbxClient({ accessToken: 'pk.TU_TOKEN_PÚBLICO_AQUÍ' });
-// const geocodingService = mbxGeocoding(mapboxClient);
+import React, { useState } from "react";
+import {
+  View,
+  TextInput,
+  FlatList,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Pressable,
+  TouchableWithoutFeedback,
+} from "react-native";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { useRouter } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SearchBarWithAutocomplete({ onSelectDestination }) {
-  const [query, setQuery] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
   const router = useRouter();
-
-//   const handleSearch = async (text) => {
-//     setQuery(text);
-//     if (text.length > 2) {
-//       try {
-//         const response = await geocodingService
-//           .forwardGeocode({
-//             query: text,
-//             limit: 5,
-//             types: ['place', 'address', 'poi'], // Tipos de resultados: lugares, direcciones, puntos de interés
-//           })
-//           .send();
-//         setSuggestions(response.body.features);
-//       } catch (error) {
-//         console.error('Error fetching suggestions:', error);
-//       }
-//     } else {
-//       setSuggestions([]);
-//     }
-//   };
-
-//   const handleSelect = (destination) => {
-//     onSelectDestination({
-//       name: destination.place_name,
-//       coordinates: destination.geometry.coordinates,
-//     });
-//     setQuery('');
-//     setSuggestions([]);
-//     router.back(); // Vuelve a HomeScreen
-//   };
+  const [query, setQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([
+    { id: "1", place_name: "Obelisco, Buenos Aires" },
+    { id: "2", place_name: "Córdoba Capital" },
+    { id: "3", place_name: "Mar del Plata" },
+    { id: "4", place_name: "Puerto Madero" },
+    { id: "5", place_name: "Bariloche, Río Negro" },
+  ]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.safeArea} edges={["top"]}>
       <View style={styles.searchContainer}>
-        <MaterialCommunityIcons name="magnify" size={24} color="gray" />
+        <TouchableWithoutFeedback onPress={() => router.back()}>
+          <MaterialCommunityIcons name="arrow-left" size={24} color="grey" />
+        </TouchableWithoutFeedback>
         <TextInput
           style={styles.input}
           placeholder="Buscar un lugar..."
           value={query}
-        //   onChangeText={handleSearch}
-          autoFocus={true} // Enfoca el input al cargar la pantalla
+          autoFocus={true}
         />
       </View>
-      <FlatList
-        data={suggestions}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.suggestionItem}
-            // onPress={() => handleSelect(item)}
-          >
-            <Text style={styles.suggestionText}>{item.place_name}</Text>
-          </TouchableOpacity>
-        )}
-        style={styles.suggestionsList}
-      />
-    </View>
+            <View style={styles.separator} /> {/* Nuevo contenedor gris */}
+
+      <View style={styles.busquedasRecientes}>
+        <Text style={styles.recientesText}>Recientes</Text>
+        <FlatList
+          data={suggestions.slice(0, 10)}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <Pressable android_ripple={{ color: "#dadada52" }} style={styles.touchables}>
+              <View style={styles.itemContainer}>
+                <View style={styles.iconContainer}>
+                  <MaterialCommunityIcons
+                    name="clock-time-four-outline"
+                    size={20}
+                    color="black"
+                  />
+                </View>
+                <Text style={styles.suggestionText}>{item.place_name}</Text>
+              </View>
+            </Pressable>
+          )}
+          ListEmptyComponent={() => (
+            <Text style={styles.emptyText}>No hay búsquedas recientes</Text>
+          )}
+        />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    padding: 16,
+    backgroundColor: "#fff",
+  },
+    separator: {
+    padding: 10, 
+    backgroundColor: "#f0f0f0",
   },
   searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
     borderRadius: 20,
     padding: 10,
+    margin: 16,
     marginBottom: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowColor: "#000",
     elevation: 2,
   },
   input: {
@@ -96,15 +92,41 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
   },
-  suggestionsList: {
+  busquedasRecientes: {
     flex: 1,
+    backgroundColor: "#fff",
+   
   },
-  suggestionItem: {
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+  recientesText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    padding: 16,
+  },
+  touchables: {
+    padding: 16,
+    marginBottom: 8,
+  },
+  itemContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 13,
+  },
+  iconContainer: {
+    backgroundColor: "#f0f0f0",
+    borderRadius: 50,
+    padding: 8,
+    alignItems: "center",
   },
   suggestionText: {
     fontSize: 16,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+    flex: 1,
+  },
+  emptyText: {
+    textAlign: "center",
+    padding: 16,
+    color: "blue",
   },
 });

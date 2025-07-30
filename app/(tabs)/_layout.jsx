@@ -10,10 +10,11 @@ export default function TabsLayout() {
         tabBarActiveTintColor: 'white',
         tabBarInactiveTintColor: 'gray',
         tabBarStyle: {
-          backgroundColor: 'rgba(0, 0, 0, 0.84)',
+          backgroundColor: 'rgba(36, 36, 36, 1)',
           borderColor: 'transparent',
+          
         },
-        tabBarItemStyle: { padding: 2 },
+        
       }}
     >
       <Tabs.Screen
@@ -32,6 +33,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="settings"
         options={{
+
           title: 'Settings',
           tabBarIcon: ({ focused, color, size }) => (
             <MaterialCommunityIcons

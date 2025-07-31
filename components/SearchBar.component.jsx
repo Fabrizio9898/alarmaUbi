@@ -29,16 +29,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#fff",
     borderRadius: 20,
-    padding: 10,
-    margin: 16,
-    marginBottom: 10,
+    padding: 5,
+    margin: 15,
     shadowColor: "#000",
     elevation: 2,
   },
-  input: {
+ input: {
     flex: 1,
     marginLeft: 10,
-    fontSize: 16,
-    color: "gray",
+    fontSize: 20,
+    fontFamily: "Onest", 
+    fontWeight: "500",
+    color: "#181817", 
   },
 });

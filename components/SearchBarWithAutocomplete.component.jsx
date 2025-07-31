@@ -2,20 +2,18 @@ import React, { useState } from "react";
 import {
   View,
   TextInput,
-  FlatList,
   Text,
   StyleSheet,
-  Pressable,
   TouchableWithoutFeedback,
 } from "react-native";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import { FlatlistSearchComponent } from "./Flatlist.component";
 export default function SearchBarWithAutocomplete({ onSelectDestination }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState([
+  const [searcHistory, setSearchHistory] = useState([
     { id: "1", place_name: "Obelisco, Buenos Aires" },
     { id: "2", place_name: "Córdoba Capital" },
     { id: "3", place_name: "Mar del Plata" },
@@ -39,30 +37,10 @@ export default function SearchBarWithAutocomplete({ onSelectDestination }) {
           placeholderTextColor={"#18181798"}
         />
       </View>
-            <View style={styles.separator} />
+      <View style={styles.separator} />
       <View style={styles.busquedasRecientes}>
         <Text style={styles.recientesText}>Recientes</Text>
-        <FlatList
-          data={suggestions.slice(0, 10)}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <Pressable android_ripple={{ color: "#dadada52" }} style={styles.touchables}>
-              <View style={styles.itemContainer}>
-                <View style={styles.iconContainer}>
-                  <MaterialCommunityIcons
-                    name="clock-time-four-outline"
-                    size={20}
-                    color="black"
-                  />
-                </View>
-                <Text style={styles.suggestionText}>{item.place_name}</Text>
-              </View>
-            </Pressable>
-          )}
-          ListEmptyComponent={() => (
-            <Text style={styles.emptyText}>No hay búsquedas recientes</Text>
-          )}
-        />
+        <FlatlistSearchComponent data={searcHistory}/>
       </View>
     </SafeAreaView>
   );
@@ -73,8 +51,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-    separator: {
-    padding: 5, 
+  separator: {
+    padding: 5,
     backgroundColor: "#f0f0f0",
   },
   searchContainer: {
@@ -91,42 +69,18 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
     fontSize: 20,
+    fontFamily: "Onest", 
+    fontWeight: "500",
+    color: "#181817", 
   },
   busquedasRecientes: {
     flex: 1,
     backgroundColor: "#fff",
-   
   },
   recientesText: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: "900",
     padding: 16,
-  },
-  touchables: {
-    padding: 16,
-    marginBottom: 8,
-  },
-  itemContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 13,
-  },
-  iconContainer: {
-    backgroundColor: "#f0f0f0",
-    borderRadius: 50,
-    padding: 8,
-    alignItems: "center",
-  },
-  suggestionText: {
-    fontSize: 16,
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-    flex: 1,
-  },
-  emptyText: {
-    textAlign: "center",
-    padding: 16,
-    color: "blue",
-  },
+    fontFamily: "Onest",
+  }
 });

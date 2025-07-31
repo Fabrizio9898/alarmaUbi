@@ -16,9 +16,7 @@ export default function SettingItem({
       underlayColor={"#e4e4e452"}
       onPress={onPress || onToggle}
       style={{
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingVertical: 10,
+        padding:15,
       }}
     >
       <View
@@ -37,11 +35,11 @@ export default function SettingItem({
             gap: 3,
           }}
         >
-          <Text style={{ color: "#ffffffff", fontWeight: "500", fontSize: 15 }}>
+          <Text style={{ color: "#ffffffe3", fontWeight: "700", fontSize: 15 ,fontFamily:"Onest",letterSpacing:0.8}}>
             {title}
           </Text>
           {description && (
-            <Text style={{ color: "#817979a1" }}>{description}</Text>
+            <Text style={{ color: "#817979a1",fontFamily:"Onest"}}>{description}</Text>
           )}
         </View>
 
@@ -57,14 +55,16 @@ export default function SettingItem({
             style={{
               flexDirection: "row",
               alignItems: "center",
-              gap: 5,
+              justifyContent: "center",
+              gap: 10,
               padding: 5,
             }}
           >
             <Text
               style={{
                 fontWeight: "bold",
-                fontSize: 15,
+                fontSize: 17,
+                fontFamily:"Onest",
                 color: "#bbbbbba1",
               }}
             >

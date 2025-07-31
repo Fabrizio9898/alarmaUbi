@@ -4,7 +4,6 @@ import {
   TextInput,
   FlatList,
   Text,
-  TouchableOpacity,
   StyleSheet,
   Pressable,
   TouchableWithoutFeedback,
@@ -34,11 +33,13 @@ export default function SearchBarWithAutocomplete({ onSelectDestination }) {
           style={styles.input}
           placeholder="Buscar un lugar..."
           value={query}
+          onChangeText={setQuery}
           autoFocus={true}
+          cursorColor={"#40c73bad"}
+          placeholderTextColor={"#18181798"}
         />
       </View>
-            <View style={styles.separator} /> {/* Nuevo contenedor gris */}
-
+            <View style={styles.separator} />
       <View style={styles.busquedasRecientes}>
         <Text style={styles.recientesText}>Recientes</Text>
         <FlatList
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
     separator: {
-    padding: 10, 
+    padding: 5, 
     backgroundColor: "#f0f0f0",
   },
   searchContainer: {
@@ -81,16 +82,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#fff",
     borderRadius: 20,
-    padding: 10,
-    margin: 16,
-    marginBottom: 10,
+    padding: 5,
+    margin: 15,
     shadowColor: "#000",
     elevation: 2,
   },
   input: {
     flex: 1,
     marginLeft: 10,
-    fontSize: 16,
+    fontSize: 20,
   },
   busquedasRecientes: {
     flex: 1,

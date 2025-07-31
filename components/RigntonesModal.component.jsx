@@ -12,7 +12,7 @@ import { useSettings } from "../hooks/useSettings.hoook"; // Importa el hook
 
 const RingtoneModal = ({ modalVisible, setModalVisible }) => {
   const { settings, updateSettings } = useSettings(); // Obtén settings y updateSettings
-  console.log('settings',settings.ringTone.name);
+  console.log("settings", settings.ringTone.name);
 
   return (
     <Modal
@@ -47,7 +47,6 @@ const RingtoneModal = ({ modalVisible, setModalVisible }) => {
               </View>
             ))}
           </View>
-          
         </SafeAreaView>
       </TouchableWithoutFeedback>
     </Modal>
@@ -64,9 +63,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#2b2b2b",
     borderRadius: 10,
     margin: 20,
+    width: "50%",
   },
   touchable: {
-    paddingLeft: 15,
     paddingRight: 40,
     paddingVertical: 20,
     borderRadius: 10,
@@ -76,10 +75,11 @@ const styles = StyleSheet.create({
   },
   ringtoneText: {
     color: "#ffffff",
+    fontFamily: "Onest",
     fontWeight: "500",
     fontSize: 15,
-    alignSelf: "center",
-    paddingRight: 20,
+    alignSelf: "flex-start",
+    paddingLeft: 11,
   },
 });
 

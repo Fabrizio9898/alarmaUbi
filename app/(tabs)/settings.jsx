@@ -84,8 +84,10 @@ const styles = StyleSheet.create({
   title: {
     color: "#ffffff",
     fontSize: 30,
-    fontWeight: "bold",
+    fontWeight: "600",
     marginTop: 20,
     paddingLeft: 10,
+    letterSpacing:1,
+    fontFamily: "Onest",
   },
 });

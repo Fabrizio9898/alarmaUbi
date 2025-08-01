@@ -1,43 +1,19 @@
-import { Alert, Linking, Platform, Pressable, StyleSheet, View } from "react-native";
+import {
+  Alert,
+  Linking,
+  Platform,
+  StyleSheet,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Map from "../../components/MapView";
 import HomeSearchBar from "../../components/HomeSearchBar.component";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useLocation } from "../../context/locationContext";
+import LocationButton from "../../components/Buttons/LocationButton";
 import { useEffect } from "react";
-import * as Notifications from 'expo-notifications';
-
 
 export default function HomeScreen() {
-  const { location, errorMsg, permissionStatus, requestLocation, startTracking, stopTracking } = useLocation();
-
-
-  // Manejar el botón de ubicación
-  const handleLocationButtonPress = async () => {
-    const success = await requestLocation();
-    if (!success && errorMsg) {
-      Alert.alert(
-        'Permiso de ubicación requerido',
-        errorMsg,
-        [
-          { text: 'Cancelar', style: 'cancel' },
-          {
-            text: 'Ir a Configuración',
-            onPress: () => {
-              if (Platform.OS === 'ios') {
-                Linking.openURL('app-settings:');
-              } else {
-                Linking.openSettings();
-              }
-            },
-          },
-        ]
-      );
-    }
-  };
-
-
-
+  
   /**
    * Inicia el seguimiento continuo hacia un destino.
    */
@@ -65,8 +41,6 @@ export default function HomeScreen() {
   //   setDestination(null);
   // };
 
-
-
   // Solicitar permisos de notificaciones al montar
   // useEffect(() => {
   //   (async () => {
@@ -77,19 +51,16 @@ export default function HomeScreen() {
   //   })();
   // }, []);
 
+  
+
   return (
-    <SafeAreaView style={{ flex: 1,position: "relative" }}>
-      <Map currentLocation={location}/>
-        <View style={styles.safeOverlay}>
-          <HomeSearchBar />
-        </View>
-        <Pressable
-        onPress={handleLocationButtonPress}
-        style={styles.searchButton}>
-          <Ionicons    name={permissionStatus === 'granted' ? 'location' : 'location-outline'}
-          size={24}
-          color={permissionStatus === 'granted' ? 'blue' : 'gray'}/>
-        </Pressable>
+    <SafeAreaView style={{ flex: 1, position: "relative" }}>
+      <Map />
+      <View style={styles.safeOverlay}>
+        <HomeSearchBar />
+      </View>
+      <LocationButton
+      />
     </SafeAreaView>
   );
 }
@@ -98,16 +69,6 @@ const styles = StyleSheet.create({
   safeOverlay: {
     flexDirection: "row",
     alignItems: "center",
-    zIndex: 1,
-  },
-  searchButton: {
-    backgroundColor: "white",
-    position: "absolute",
-    bottom: 100,
-    right: 20,
-    padding: 14,
-    borderRadius: 15,
-    elevation: 5, // Shadow for Android
     zIndex: 1,
   },
 });

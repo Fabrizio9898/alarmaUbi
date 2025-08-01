@@ -1,79 +1,134 @@
-import * as Location from 'expo-location';
-import { useState } from 'react';
+// hooks/useLocationHook.js
+import { useState, useEffect, useRef } from 'react';
+import {
+  checkLocationPermission,
+  requestLocationPermission,
+  getCurrentLocation,
+  startLocationTracking,
+  handleLocationError,
+} from '../utils/locationUtils';
 
+/**
+ * Hook personalizado para gestionar la ubicación del dispositivo.
+ * @returns {Object} Objeto con estados y funciones:
+ * - location: Ubicación actual.
+ * - errorMsg: Mensaje de error, si lo hay.
+ * - permissionStatus: Estado de los permisos ('granted', 'denied', etc.).
+ * - isTracking: Indica si el seguimiento está activo.
+ * - checkPermissionStatus: Verifica el estado de los permisos.
+ * - requestLocation: Solicita permisos y obtiene la ubicación.
+ * - startTracking: Inicia el seguimiento continuo.
+ * - stopTracking: Detiene el seguimiento.
+ */
 export function useLocationHook() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [permissionStatus, setPermissionStatus] = useState(null);
+  const [isTracking, setIsTracking] = useState(false);
+  const watchIdRef = useRef(null);
 
-  // Verificar estado inicial de permisos sin solicitarlos
+  /**
+   * Verifica el estado actual de los permisos de ubicación.
+   * @returns {Promise<boolean>} Retorna `true` si los permisos están otorgados.
+   */
   const checkPermissionStatus = async () => {
     try {
-      let { status } = await Location.getForegroundPermissionsAsync();
-      setPermissionStatus(status);
-      if (status === 'granted') {
-        // Si ya tiene permisos, obtener ubicación inicial
-        let currentLocation = await Location.getCurrentPositionAsync({
-          accuracy: Location.Accuracy.High,
-        });
-        setLocation(currentLocation);
-      }
+      const hasPermission = await checkLocationPermission();
+      setPermissionStatus(hasPermission ? 'granted' : 'denied');
+      return hasPermission;
     } catch (error) {
-         console.log("Error al verificar permisos",error);
-      setErrorMsg('Error al verificar permisos');
+      const message = handleLocationError(error);
+      setErrorMsg(message);
+      setPermissionStatus('denied');
+      return false;
     }
   };
 
-  // Solicitar permisos y obtener ubicación
+  /**
+   * Solicita permisos de ubicación y obtiene la ubicación actual.
+   * @returns {Promise<boolean>} Retorna `true` si se obtuvo la ubicación.
+   */
   const requestLocation = async () => {
     try {
-      let { status } = await Location.requestForegroundPermissionsAsync();
+      const { granted, status } = await requestLocationPermission();
       setPermissionStatus(status);
-
-      if (status !== 'granted') {
+      if (!granted) {
         setErrorMsg('Permiso de ubicación denegado');
+        setLocation(null);
         return false;
       }
-
-      let currentLocation = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.High,
-      });
+      const currentLocation = await getCurrentLocation();
       setLocation(currentLocation);
       return true;
     } catch (error) {
-         console.log("Error al obtener la ubicación",error);
-      setErrorMsg('Error al obtener la ubicación');
+      const message = handleLocationError(error);
+      setErrorMsg(message);
+      setLocation(null);
       return false;
     }
   };
 
-  // Refrescar ubicación si ya tiene permisos
-  const refreshLocation = async () => {
-    if (permissionStatus !== 'granted') {
-      setErrorMsg('No hay permisos para obtener la ubicación');
-      return false;
-    }
-
+  /**
+   * Inicia el seguimiento continuo de la ubicación, solicitando permisos en segundo plano si es necesario.
+   * @param {Function} onLocationUpdate - Callback que recibe la nueva ubicación.
+   * @param {Object} [destination] - Ubicación destino.
+   * @returns {Promise<boolean>} Retorna `true` si el seguimiento comenzó.
+   */
+  const startTracking = async (onLocationUpdate, destination) => {
+    if (isTracking) return true;
     try {
-      let currentLocation = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.High,
-      });
-      setLocation(currentLocation);
+      const hasPermission = await checkPermissionStatus();
+      if (!hasPermission) {
+        const { granted, status } = await requestLocationPermission(true); // Solicitar permisos en segundo plano
+        setPermissionStatus(status);
+        if (!granted) {
+          setErrorMsg('Permiso de ubicación en segundo plano denegado');
+          return false;
+        }
+      }
+      watchIdRef.current = await startLocationTracking(
+        (newLocation, dest) => {
+          setLocation(newLocation);
+          if (onLocationUpdate) {
+            onLocationUpdate(newLocation, dest);
+          }
+        },
+        destination
+      );
+      setIsTracking(true);
       return true;
     } catch (error) {
-      console.log("Error al refrescar la ubicación",error);
-      
-      setErrorMsg('Error al refrescar la ubicación');
+      const message = handleLocationError(error);
+      setErrorMsg(message);
+      setIsTracking(false);
       return false;
     }
   };
+
+  /**
+   * Detiene el seguimiento continuo de la ubicación.
+   */
+  const stopTracking = () => {
+    if (watchIdRef.current) {
+      watchIdRef.current.remove();
+      watchIdRef.current = null;
+    }
+    setIsTracking(false);
+  };
+
+  // No limpiamos automáticamente al desmontar para permitir el seguimiento en segundo plano
+  // useEffect(() => {
+  //   return () => stopTracking();
+  // }, []);
 
   return {
     location,
     errorMsg,
     permissionStatus,
+    isTracking,
     checkPermissionStatus,
     requestLocation,
-    refreshLocation,
+    startTracking,
+    stopTracking,
   };
 }

@@ -6,7 +6,7 @@ import Constants from "expo-constants";
 const mapboxToken = Constants.expoConfig.extra.MAPBOX_PUBLIC_TOKEN;
 Mapbox.setAccessToken(mapboxToken);
 
-export default function Map() {
+export default function Map({location}) {
   useEffect(() => {
     Mapbox.setTelemetryEnabled(false);
   }, []);

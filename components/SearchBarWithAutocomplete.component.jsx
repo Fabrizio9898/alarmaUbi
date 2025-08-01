@@ -10,6 +10,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FlatlistSearchComponent } from "./Flatlist.component";
+import { globalStyles } from "../styles/global";
 export default function SearchBarWithAutocomplete({ onSelectDestination }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
@@ -20,15 +21,16 @@ export default function SearchBarWithAutocomplete({ onSelectDestination }) {
     { id: "4", place_name: "Puerto Madero" },
     { id: "5", place_name: "Bariloche, Río Negro" },
   ]);
+const [recommendations, setRecommendations] = useState([])
 
-  return (
-    <SafeAreaView style={styles.safeArea} edges={["top"]}>
-      <View style={styles.searchContainer}>
+return (
+    <SafeAreaView style={styles.safeArea}>
+      <View style={globalStyles.searchContainer}>
         <TouchableWithoutFeedback onPress={() => router.back()}>
           <MaterialCommunityIcons name="arrow-left" size={24} color="grey" />
         </TouchableWithoutFeedback>
         <TextInput
-          style={styles.input}
+          style={globalStyles.searchInput}
           placeholder="Buscar un lugar..."
           value={query}
           onChangeText={setQuery}
@@ -54,24 +56,6 @@ const styles = StyleSheet.create({
   separator: {
     padding: 5,
     backgroundColor: "#f0f0f0",
-  },
-  searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    padding: 5,
-    margin: 15,
-    shadowColor: "#000",
-    elevation: 2,
-  },
-  input: {
-    flex: 1,
-    marginLeft: 10,
-    fontSize: 20,
-    fontFamily: "Onest", 
-    fontWeight: "500",
-    color: "#181817", 
   },
   busquedasRecientes: {
     flex: 1,

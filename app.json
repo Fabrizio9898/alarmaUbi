@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "geoAlarma",
-    "slug": "alarmaUbi",
+    "name": "Wakemap",
+    "slug": "wakemap",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
@@ -108,6 +108,7 @@
     "scheme": "alarmaubi",
     "extra": {
       "router": {},
+      "MAPBOX_PUBLIC_TOKEN":"pk.eyJ1IjoiZmFicmlhbmRyYWRlIiwiYSI6ImNtZG5yeXgybzIzbDkya3EweWxheDduZmwifQ.XnCNFZSxxlGeNFUviv9XsQ",
       "eas": {
         "projectId": "88b9d9d2-fcbc-45cc-9083-9ada98fac7ba"
       }

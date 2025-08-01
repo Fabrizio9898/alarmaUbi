@@ -2,9 +2,10 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SettingsProvider } from "../context/settingsContext";
 import { SearchHistoryProvider } from "../context/searchContext";
-
+import {LocationProvider} from "../context/locationContext"
 export default function RootLayout() {
   return (
+    <LocationProvider>
     <SettingsProvider>
       <SearchHistoryProvider>
         <StatusBar style="dark" />
@@ -21,5 +22,6 @@ export default function RootLayout() {
         </Stack>
       </SearchHistoryProvider>
     </SettingsProvider>
+    </LocationProvider>
   );
 }

@@ -2,18 +2,19 @@ import React from "react";
 import { TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { globalStyles } from "../styles/global";
 
-export default function SearchBar() {
+export default function HomeSearchBar() {
   const router = useRouter();
 
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={globalStyles.searchContainer}
       onPress={() => router.push("/search")}
     >
       <MaterialCommunityIcons name="magnify" size={24} color="gray" />
       <TextInput
-        style={styles.input}
+        style={globalStyles.searchInput}
         placeholder="Buscar un lugar..."
         editable={false}
         pointerEvents="none"
@@ -23,23 +24,3 @@ export default function SearchBar() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-     flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    padding: 5,
-    margin: 15,
-    shadowColor: "#000",
-    elevation: 2,
-  },
- input: {
-    flex: 1,
-    marginLeft: 10,
-    fontSize: 20,
-    fontFamily: "Onest", 
-    fontWeight: "500",
-    color: "#181817", 
-  },
-});
